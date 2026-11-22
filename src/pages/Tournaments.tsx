@@ -92,7 +92,7 @@ export default function Tournaments() {
 
   return (
     <>
-      <div className="page-head">
+      <div className="page-head hero">
         <div><h1>Tournaments</h1><p className="sub">Create, run and look back on your chess events.</p></div>
         <button className="btn btn-primary" onClick={() => setCreateOpen(true)}><Icon name="plus" /> New tournament</button>
       </div>

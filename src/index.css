@@ -265,8 +265,11 @@ select option{background:#1b1b1b;color:#eee}
 
 /* ---------- TV display ---------- */
 .tv-stage{--tv-bg:#111;--tv-card:#1b1b1b;--tv-accent:#fafafa;--tv-text:#f2f2f2;--tv-sub:#8f8f8f;--tv-line:#2a2a2a;background:var(--tv-bg);color:var(--tv-text);border:1px solid #2a2a2a;border-radius:14px;padding:28px;min-height:420px}
-.tv-stage[data-theme=esports]{--tv-bg:#0b0d10;--tv-card:#161b22;--tv-accent:#9dff4a;--tv-text:#fff;--tv-sub:#8b98a5;--tv-line:#2a323c;border-color:#9dff4a55;text-transform:uppercase;letter-spacing:.5px}
-.tv-stage[data-theme=esports] h1{text-shadow:0 0 18px #9dff4a55}
+.tv-stage[data-theme=casual],.tv-stage[data-theme=esports]{background-size:cover;background-repeat:no-repeat}
+.tv-stage[data-theme=casual]{--tv-card:rgba(14,14,14,.62);--tv-line:rgba(255,255,255,.12);background-image:linear-gradient(90deg,rgba(8,8,8,.9) 0%,rgba(8,8,8,.66) 55%,rgba(8,8,8,.28) 100%),url(./assets/bg-board.webp);background-position:center 56%}
+.tv-stage[data-theme=esports]{--tv-bg:#0a0a0b;--tv-card:rgba(10,10,12,.66);--tv-accent:#ff5a4f;--tv-text:#fff;--tv-sub:#a89f9f;--tv-line:rgba(255,90,79,.24);border-color:rgba(255,90,79,.4);text-transform:uppercase;letter-spacing:.5px;background-image:linear-gradient(90deg,rgba(6,6,8,.95) 0%,rgba(6,6,8,.72) 52%,rgba(6,6,8,.22) 100%),url(./assets/bg-pawn.webp);background-position:center 50%}
+.tv-stage[data-theme=esports] h1{text-shadow:0 0 22px rgba(255,90,79,.45)}
+.tv-stage[data-theme=casual] .tv-board,.tv-stage[data-theme=esports] .tv-board,.tv-stage[data-theme=casual] .tv-names div,.tv-stage[data-theme=esports] .tv-names div{backdrop-filter:blur(6px);border:1px solid var(--tv-line)}
 .tv-stage[data-theme=kids]{--tv-bg:#1d3a6b;--tv-card:#2a5aa8;--tv-accent:#ffd23f;--tv-text:#fff;--tv-sub:#cfe2ff;--tv-line:#4577c0;border-color:#ffd23f66;border-radius:26px}
 .tv-stage[data-theme=kids] .tv-board{border-radius:18px}
 .tv-stage:fullscreen{border-radius:0;padding:3.5vw;overflow:auto;border:0}
@@ -346,3 +349,24 @@ select option{background:#1b1b1b;color:#eee}
   .past-row{flex-direction:column;align-items:flex-start}
   .event-meta{gap:18px;flex-wrap:wrap}
 }
+
+/* ---------- background imagery ---------- */
+.theme-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.theme-card{border:1px solid var(--line2);border-radius:12px;overflow:hidden;text-align:left;background:var(--surface);transition:border-color .12s}
+.theme-card:hover{border-color:#4a4a4a}
+.theme-card.selected{border-color:#e6e6e6;box-shadow:0 0 0 1px #e6e6e6}
+.theme-thumb{display:block;width:100%;height:104px;background-size:cover;background-position:center;position:relative}
+.theme-thumb::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(27,27,27,.85))}
+.theme-thumb[data-t=casual]{background-image:url(./assets/bg-board.webp);background-position:center 56%}
+.theme-thumb[data-t=esports]{background-image:url(./assets/bg-pawn.webp);background-position:center 50%}
+.theme-thumb[data-t=kids]{background-image:linear-gradient(135deg,#1d3a6b,#2a5aa8 62%,#ffd23f)}
+.theme-card b{display:block;padding:10px 12px 0;font-size:13px}
+.theme-card small{display:block;padding:0 12px 12px;color:var(--muted);font-size:11.5px}
+
+.page-head.hero{position:relative;align-items:center;min-height:132px;padding:24px 28px;border:1px solid var(--line);border-radius:14px;margin-bottom:22px;background:linear-gradient(90deg,rgba(23,23,23,.96) 0%,rgba(23,23,23,.74) 40%,rgba(23,23,23,.18) 100%),url(./assets/bg-board.webp) center 50%/cover no-repeat;overflow:hidden}
+
+.auth-wrap{background:linear-gradient(rgba(10,10,10,.5),rgba(10,10,10,.82)),url(./assets/bg-hall.webp) center/cover no-repeat fixed}
+.auth-card{background:rgba(18,18,18,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:rgba(255,255,255,.1)}
+.live-page{min-height:100vh;background:linear-gradient(rgba(10,10,10,.3),rgba(10,10,10,.72)),url(./assets/bg-board.webp) center 55%/cover no-repeat fixed}
+.live-page .live-board,.live-page .me-card,.live-page .table-wrap{background:rgba(18,18,18,.6);backdrop-filter:blur(6px)}
+@media(max-width:760px){.page-head.hero{padding:20px 18px;min-height:0}.theme-grid{grid-template-columns:1fr}}

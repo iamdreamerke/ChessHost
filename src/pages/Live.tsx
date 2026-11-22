@@ -48,6 +48,7 @@ export default function Live() {
   const status = t.status === 'draft' ? 'Not started' : t.status === 'finished' ? 'Finished' : 'Live'
 
   return (
+    <div className="live-page">
     <div className="live-wrap">
       <div className="live-head">
         <div>
@@ -145,6 +146,7 @@ export default function Live() {
       )}
 
       <p className="sub" style={{ textAlign: 'center', marginTop: 26, fontSize: 11 }}>Live view · read-only · updates automatically</p>
+    </div>
     </div>
   )
 }

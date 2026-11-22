@@ -8,9 +8,9 @@ import { tvUrl } from '../lib/utils'
 import type { TvTheme } from '../lib/types'
 
 const THEMES: { id: TvTheme; label: string; hint: string }[] = [
-  { id: 'casual', label: 'Casual', hint: 'Friendly & relaxed' },
-  { id: 'esports', label: 'Esports', hint: 'Competitive & bold' },
-  { id: 'kids', label: 'Kids', hint: 'Bright & playful' },
+  { id: 'casual', label: 'Casual', hint: 'Quiet and minimal' },
+  { id: 'esports', label: 'Esports', hint: 'Bold, red accent' },
+  { id: 'kids', label: 'Kids', hint: 'Bright and playful' },
 ]
 
 export default function TvPage() {
@@ -49,9 +49,10 @@ export default function TvPage() {
       <TvStage ref={stage} tournament={t} players={players} games={games} />
 
       <div className="section-head"><h2>Display style</h2><span>Choose the look for your venue</span></div>
-      <div className="choice-grid">
+      <div className="theme-grid">
         {THEMES.map((th) => (
-          <button key={th.id} className={'choice' + (t.tv_theme === th.id ? ' selected' : '')} onClick={() => setTheme(th.id)}>
+          <button key={th.id} className={'theme-card' + (t.tv_theme === th.id ? ' selected' : '')} onClick={() => setTheme(th.id)}>
+            <span className="theme-thumb" data-t={th.id} />
             <b>{th.label}</b><small>{th.hint}</small>
           </button>
         ))}
