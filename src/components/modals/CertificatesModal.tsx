@@ -60,7 +60,7 @@ function Body({ id, onClose }: { id: string; onClose: () => void }) {
       <CertificateView ref={ref} name={row.player.name} category={category} event={t.name} date={fmtDateLong(t.event_date)} director={profile?.full_name ?? ''} code={code} />
       <div className="modal-foot">
         <button className="btn btn-outline" onClick={onClose}>Close</button>
-        <button className="btn btn-outline" onClick={pdf} disabled={busy}>↓ PDF</button>
+        <button className="btn btn-outline" onClick={pdf} disabled={busy}>PDF</button>
         <button className="btn btn-primary" onClick={png} disabled={busy}>Download PNG</button>
       </div>
     </>

@@ -1,10 +1,10 @@
+import Icon from '../components/Icon'
 import { useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useTournament } from '../hooks/useTournament'
 import { computeStandings, fmtPoints } from '../lib/standings'
 import { FORMAT_LABEL, SPEED_LABEL, clockLabel, fmtDateShort, resultText } from '../lib/utils'
 
-const MEDALS = ['🥇', '🥈', '🥉']
 const two = (n: number) => String(n).padStart(2, '0')
 const read = (k: string) => { try { return localStorage.getItem(k) ?? '' } catch { return '' } }
 const write = (k: string, v: string) => { try { v ? localStorage.setItem(k, v) : localStorage.removeItem(k) } catch { /* ignore */ } }
@@ -45,7 +45,7 @@ export default function Live() {
     return line
   }
 
-  const status = t.status === 'draft' ? 'NOT STARTED' : t.status === 'finished' ? 'FINISHED' : '● LIVE'
+  const status = t.status === 'draft' ? 'Not started' : t.status === 'finished' ? 'Finished' : 'Live'
 
   return (
     <div className="live-wrap">
@@ -55,7 +55,7 @@ export default function Live() {
           <h1>{t.name}</h1>
           <p className="sub">{fmtDateShort(t.event_date)}{t.status === 'live' ? ` · Round ${t.current_round} of ${t.total_rounds}` : ''}</p>
         </div>
-        <span className="tag green">{status}</span>
+        <span className={'status ' + t.status}>{status}</span>
       </div>
 
       {players.length > 0 && !meId && (
@@ -81,7 +81,7 @@ export default function Live() {
 
       {t.status === 'draft' ? (
         <div className="empty">
-          <div className="empty-mark">♟</div>
+          <div className="empty-mark"><Icon name="pawn" size={17} /></div>
           <h3>Starting soon</h3>
           <p>{players.length} player{players.length === 1 ? '' : 's'} registered. Fixtures appear here as soon as the host starts the tournament.</p>
           <div className="chip-row" style={{ justifyContent: 'center' }}>
@@ -100,7 +100,7 @@ export default function Live() {
               <div className="round-chips">
                 {rounds.map((r) => (
                   <button key={r} className={'btn btn-sm ' + (viewRound === r ? 'btn-soft' : 'btn-outline')} onClick={() => setPicked(r === t.current_round ? null : r)}>
-                    R{r}{r === t.current_round && t.status === 'live' ? ' ●' : ''}
+                    R{r}{r === t.current_round && t.status === 'live' && <span className="ldot" />}
                   </button>
                 ))}
                 <span className="sub" style={{ marginLeft: 'auto', fontSize: 11 }}>{done} of {boards.length} results in</span>
@@ -116,7 +116,7 @@ export default function Live() {
                     </div>
                     {!g.black_id
                       ? <span className="res wait">Bye +1</span>
-                      : g.result ? <span className="res">{resultText(g.result)}</span> : <span className="res wait">● Playing</span>}
+                      : g.result ? <span className="res">{resultText(g.result)}</span> : <span className="res wait">Playing</span>}
                   </div>
                 )
               })}
@@ -131,7 +131,7 @@ export default function Live() {
                 <tbody>
                   {rows.map((r) => (
                     <tr key={r.player.id} className={r.player.id === meId ? 'me' : ''}>
-                      <td>{MEDALS[r.rank - 1] ?? r.rank}</td>
+                      <td className="num">{r.rank}</td>
                       <td><b>{r.player.name}</b></td>
                       <td>{r.played}</td><td>{r.wins}</td><td>{r.draws}</td><td>{r.losses}</td>
                       <td><b>{fmtPoints(r.points)}</b></td>

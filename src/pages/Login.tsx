@@ -1,8 +1,9 @@
+import Icon from '../components/Icon'
 import { useState, type FormEvent } from 'react'
 import { Navigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../hooks/useAuth'
-import { friendlyError } from '../lib/utils'
+import { appUrl, friendlyError } from '../lib/utils'
 
 export default function Login() {
   const { session, loading } = useAuth()
@@ -23,7 +24,7 @@ export default function Login() {
       const { error } = await supabase.auth.signInWithPassword({ email, password })
       if (error) setErr(friendlyError(error))
     } else {
-      const { data, error } = await supabase.auth.signUp({ email, password, options: { data: { full_name: name.trim() } } })
+      const { data, error } = await supabase.auth.signUp({ email, password, options: { data: { full_name: name.trim() }, emailRedirectTo: appUrl() } })
       if (error) setErr(friendlyError(error))
       else if (!data.session) setInfo('Account created! Check your email to confirm, then sign in.')
     }
@@ -33,7 +34,7 @@ export default function Login() {
   return (
     <div className="auth-wrap">
       <form className="auth-card" onSubmit={submit}>
-        <div className="brand"><span className="brand-mark">♟</span>ChessHost<span style={{ color: 'var(--green)' }}>.</span></div>
+        <div className="brand"><span className="brand-mark"><Icon name="pawn" size={14} /></span>ChessHost</div>
         <h1>{mode === 'in' ? 'Welcome back' : 'Create your organiser account'}</h1>
         <p className="sub">{mode === 'in' ? 'Sign in to manage your chess events.' : 'Free to start. No player accounts needed.'}</p>
         {err && <div className="notice">{err}</div>}

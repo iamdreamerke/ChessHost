@@ -1,9 +1,9 @@
+import Icon from '../components/Icon'
 import { useMemo } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { useTournament } from '../hooks/useTournament'
 import { computeStandings, fmtPoints } from '../lib/standings'
 
-const MEDALS = ['🥇', '🥈', '🥉']
 
 export default function Standings() {
   const { id } = useParams()
@@ -17,13 +17,13 @@ export default function Standings() {
     <>
       <div className="page-head">
         <div>
-          <div className="eyebrow">{t.name}</div>
+          <div className="eyebrow raw">{t.name}</div>
           <h1>Standings</h1>
           <p className="sub">Live leaderboard · Updated as results come in. Tie-break: Buchholz.</p>
         </div>
         <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-          <span className="tag green">{t.status === 'finished' ? 'FINAL' : t.status === 'draft' ? 'NOT STARTED' : `ROUND ${t.current_round}`}</span>
-          <Link className="btn btn-outline btn-sm" to={`/tournaments/${t.id}`}>← Control room</Link>
+          <span className={'status ' + t.status}>{t.status === 'finished' ? 'Final' : t.status === 'draft' ? 'Not started' : `Round ${t.current_round}`}</span>
+          <Link className="btn btn-outline btn-sm" to={`/tournaments/${t.id}`}><Icon name="arrow-left" size={14} /> Control room</Link>
         </div>
       </div>
       <div className="table-wrap">
@@ -32,7 +32,7 @@ export default function Standings() {
           <tbody>
             {rows.map((r) => (
               <tr key={r.player.id}>
-                <td>{MEDALS[r.rank - 1] ?? ''} {r.rank}</td>
+                <td className="num">{r.rank}</td>
                 <td><b>{r.player.name}</b></td>
                 <td>{r.played}</td><td>{r.wins}</td><td>{r.draws}</td><td>{r.losses}</td>
                 <td className="num">{fmtPoints(r.buchholz)}</td>

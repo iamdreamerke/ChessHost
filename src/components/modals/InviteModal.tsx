@@ -40,21 +40,21 @@ export default function InviteModal({ tournament, onClose, onChanged }: {
     <Modal open onClose={onClose} title="Invite Players" width={420}>
       <div style={{ textAlign: 'center' }}>
         <div className="eyebrow">SCAN TO JOIN</div>
-        <div style={{ fontWeight: 900, fontSize: 17, marginTop: 4 }}>{tournament.name}</div>
+        <div style={{ fontWeight: 500, fontSize: 17, marginTop: 4 }}>{tournament.name}</div>
         <div className="qr-box"><QRCodeSVG value={url} size={160} fgColor="#1f2a24" bgColor="#ffffff" /></div>
         <div className="invite-link">
           <span>{url.replace(/^https?:\/\//, '')}</span>
-          <button className="btn btn-soft btn-sm" onClick={copy}>{copied ? 'Copied ✓' : 'Copy'}</button>
+          <button className="btn btn-soft btn-sm" onClick={copy}>{copied ? 'Copied' : 'Copy'}</button>
         </div>
         <p style={{ color: 'var(--muted)', fontSize: 11, margin: '14px 0 6px' }}>Spectator link: live fixtures & standings (read-only)</p>
         <div className="invite-link">
           <span>{liveUrl(tournament.slug).replace(/^https?:\/\//, '')}</span>
-          <button className="btn btn-soft btn-sm" onClick={copyLive}>{copiedLive ? 'Copied ✓' : 'Copy'}</button>
+          <button className="btn btn-soft btn-sm" onClick={copyLive}>{copiedLive ? 'Copied' : 'Copy'}</button>
         </div>
         <p style={{ color: 'var(--muted)', fontSize: 11, margin: '16px 0 5px' }}>
           {locked ? 'Registration closes when a tournament starts' : open ? 'Registration is currently open' : 'Registration is currently closed'}
         </p>
-        <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 9, fontSize: 12, fontWeight: 800 }}>
+        <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 9, fontSize: 12, fontWeight: 500 }}>
           <input type="checkbox" checked={open && !locked} disabled={locked} onChange={(e) => toggle(e.target.checked)} /> Accept new registrations
         </label>
       </div>

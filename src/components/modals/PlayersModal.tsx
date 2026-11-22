@@ -1,3 +1,4 @@
+import Icon from '../Icon'
 import { useCallback, useEffect, useState } from 'react'
 import Modal from '../Modal'
 import { supabase } from '../../lib/supabase'
@@ -82,7 +83,7 @@ export default function PlayersModal({ tournament, onClose, onChanged }: {
             <div className="form-row">
               <label>Quick add from My Players</label>
               <div className="chip-row">
-                {available.slice(0, 30).map((m) => <button key={m.id} className="chip-btn" onClick={() => addMember(m)}>＋ {m.name}</button>)}
+                {available.slice(0, 30).map((m) => <button key={m.id} className="chip-btn" onClick={() => addMember(m)}>+ {m.name}</button>)}
               </div>
             </div>
           )}
@@ -95,7 +96,7 @@ export default function PlayersModal({ tournament, onClose, onChanged }: {
           {players.map((p) => (
             <div className="player-row" key={p.id}>
               <span>{p.name}</span>
-              {!locked && <button onClick={() => remove(p.id)} aria-label={`Remove ${p.name}`}>×</button>}
+              {!locked && <button onClick={() => remove(p.id)} aria-label={`Remove ${p.name}`}><Icon name="x" size={14} /></button>}
             </div>
           ))}
         </div>

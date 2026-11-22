@@ -5,10 +5,10 @@ import { useAuth } from '../../hooks/useAuth'
 import { friendlyError } from '../../lib/utils'
 import type { Format, Speed, Tournament } from '../../lib/types'
 
-const SPEEDS: { id: Speed; icon: string; label: string; hint: string; clock: number | null }[] = [
-  { id: 'blitz', icon: '⚡', label: 'Blitz', hint: 'Fast games', clock: 5 },
-  { id: 'rapid', icon: '◷', label: 'Rapid', hint: 'Balanced pace', clock: 15 },
-  { id: 'social', icon: '☕', label: 'Social', hint: 'No clock', clock: null },
+const SPEEDS: { id: Speed; label: string; hint: string; clock: number | null }[] = [
+  { id: 'blitz', label: 'Blitz', hint: 'Fast games', clock: 5 },
+  { id: 'rapid', label: 'Rapid', hint: 'Balanced pace', clock: 15 },
+  { id: 'social', label: 'Social', hint: 'No clock', clock: null },
 ]
 
 const today = () => new Date().toISOString().slice(0, 10)
@@ -61,7 +61,7 @@ export default function CreateTournamentModal({ open, onClose, onCreated }: {
   }
 
   return (
-    <Modal open={open} onClose={onClose} eyebrow="LET'S GET STARTED" title="Create New Tournament">
+    <Modal open={open} onClose={onClose} eyebrow="LET'S GET STARTED" title="New tournament">
       {err && <div className="notice">{err}</div>}
       <div className="form-row">
         <label>Tournament name</label>
@@ -72,7 +72,7 @@ export default function CreateTournamentModal({ open, onClose, onCreated }: {
         <div className="choice-grid">
           {SPEEDS.map((s) => (
             <button key={s.id} className={'choice' + (speed === s.id ? ' selected' : '')} onClick={() => pickSpeed(s)}>
-              <b>{s.icon} {s.label}</b><small>{s.hint}</small>
+              <b>{s.label}</b><small>{s.hint}</small>
             </button>
           ))}
         </div>
@@ -117,7 +117,7 @@ export default function CreateTournamentModal({ open, onClose, onCreated }: {
       </div>
       <div className="modal-foot">
         <button className="btn btn-outline" onClick={onClose}>Cancel</button>
-        <button className="btn btn-primary" onClick={submit} disabled={busy}>{busy ? 'Creating…' : 'Continue →'}</button>
+        <button className="btn btn-primary" onClick={submit} disabled={busy}>{busy ? 'Creating…' : 'Continue'}</button>
       </div>
     </Modal>
   )

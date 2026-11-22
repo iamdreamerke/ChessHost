@@ -30,7 +30,7 @@ export const roundsFor = (t: Tournament, nPlayers: number) => totalRoundsFor(t.f
 
 export function playTimeLabel(t: Tournament, nPlayers: number) {
   const mins = roundsFor(t, nPlayers) * ((t.clock_minutes ?? 10) * 2 + 5)
-  return mins >= 60 ? `~${Math.round(mins / 6) / 10}h`.replace('.0h', 'h') : `~${mins}m`
+  return mins >= 60 ? `~${Math.floor(mins / 60)}h${mins % 60 ? ` ${mins % 60}m` : ''}` : `~${mins}m`
 }
 
 export const resultText = (r: Result | null) => (r === '1-0' ? '1 — 0' : r === '0-1' ? '0 — 1' : r ? '½ — ½' : '')

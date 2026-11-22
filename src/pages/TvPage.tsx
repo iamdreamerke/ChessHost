@@ -1,3 +1,4 @@
+import Icon from '../components/Icon'
 import { useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import TvStage from '../components/TvStage'
@@ -35,13 +36,13 @@ export default function TvPage() {
       <div className="page-head">
         <div>
           <div className="eyebrow">PUBLIC EVENT SCREEN</div>
-          <h1>TV Display</h1>
+          <h1>TV display</h1>
           <p className="sub">A live view for your TV, projector or big screen. Updates automatically as results come in.</p>
         </div>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-          <button className="btn btn-outline" onClick={copy}>{copied ? 'Link copied ✓' : '⧉ Copy TV link'}</button>
-          <a className="btn btn-outline" href={`/tv/${t.slug}`} target="_blank" rel="noreferrer">↗ Open in new tab</a>
-          <button className="btn btn-primary" onClick={() => stage.current?.requestFullscreen?.()}>⛶ Full screen</button>
+          <button className="btn btn-outline" onClick={copy}>{copied ? 'Link copied' : <><Icon name="copy" size={14} /> Copy TV link</>}</button>
+          <a className="btn btn-outline" href={tvUrl(t.slug)} target="_blank" rel="noreferrer"><Icon name="external" size={14} /> Open in new tab</a>
+          <button className="btn btn-primary" onClick={() => stage.current?.requestFullscreen?.()}><Icon name="maximize" size={14} /> Full screen</button>
         </div>
       </div>
 

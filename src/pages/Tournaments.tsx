@@ -1,3 +1,4 @@
+import Icon from '../components/Icon'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
@@ -92,8 +93,8 @@ export default function Tournaments() {
   return (
     <>
       <div className="page-head">
-        <div><div className="eyebrow">YOUR CHESS COMMUNITY</div><h1>My Tournaments</h1><p className="sub">Create, manage and relive your chess events.</p></div>
-        <button className="btn btn-primary" onClick={() => setCreateOpen(true)}>＋ Create New Tournament</button>
+        <div><h1>Tournaments</h1><p className="sub">Create, run and look back on your chess events.</p></div>
+        <button className="btn btn-primary" onClick={() => setCreateOpen(true)}><Icon name="plus" /> New tournament</button>
       </div>
 
       {msg && <div className="notice">{msg}</div>}
@@ -101,31 +102,30 @@ export default function Tournaments() {
       {profile?.plan === 'free' && usedThisMonth && (
         <div className="banner">
           <div className="banner-left">
-            <div className="banner-icon">♜</div>
             <div><strong>Your free event has been used this month</strong><p>Your next free event unlocks {nextUnlock}. Upgrade to host without limits.</p></div>
           </div>
-          <Link to="/billing" className="btn btn-outline">Unlock unlimited events →</Link>
+          <Link to="/billing" className="btn btn-outline">Upgrade</Link>
         </div>
       )}
 
       <div className="stats">
-        <div className="stat"><div className="stat-top">Total tournaments <span className="stat-icon">♜</span></div><div className="stat-num">{ts.length}</div><div className="stat-note">Across your community</div></div>
-        <div className="stat"><div className="stat-top">Players hosted <span className="stat-icon">♙</span></div><div className="stat-num">{stats.hosted}</div><div className="stat-note">Unique participants</div></div>
-        <div className="stat"><div className="stat-top">Hours of chess <span className="stat-icon">◷</span></div><div className="stat-num">{stats.hours}</div><div className="stat-note">Estimated from game clocks</div></div>
-        <div className="stat"><div className="stat-top">Certificates <span className="stat-icon">✧</span></div><div className="stat-num">{stats.certs}</div><div className="stat-note">Ready to celebrate</div></div>
+        <div className="stat"><div className="stat-top">Total tournaments</div><div className="stat-num">{ts.length}</div><div className="stat-note">Across your community</div></div>
+        <div className="stat"><div className="stat-top">Players hosted</div><div className="stat-num">{stats.hosted}</div><div className="stat-note">Unique participants</div></div>
+        <div className="stat"><div className="stat-top">Hours of chess</div><div className="stat-num">{stats.hours}</div><div className="stat-note">Estimated from game clocks</div></div>
+        <div className="stat"><div className="stat-top">Certificates</div><div className="stat-num">{stats.certs}</div><div className="stat-note">Ready to celebrate</div></div>
       </div>
 
       <div className="section-head">
-        <h2>Active Events <span className="tag green" style={{ marginLeft: 6 }}>{active.length} EVENT{active.length === 1 ? '' : 'S'}</span></h2>
+        <h2>Active events <span className="count">{active.length}</span></h2>
         <span>Manage your upcoming tournaments</span>
       </div>
 
       {active.length === 0 ? (
         <div className="empty">
-          <div className="empty-mark">♜</div>
+          <div className="empty-mark"><Icon name="trophy" size={17} /></div>
           <h3>No active tournaments</h3>
           <p>Create your first tournament and invite players with a QR code in under a minute.</p>
-          <button className="btn btn-primary" onClick={() => setCreateOpen(true)}>＋ Create New Tournament</button>
+          <button className="btn btn-primary" onClick={() => setCreateOpen(true)}><Icon name="plus" /> New tournament</button>
         </div>
       ) : (
         <div className="event-grid">
@@ -135,7 +135,7 @@ export default function Tournaments() {
               <article className="event-card" key={t.id}>
                 <div className="event-top">
                   <div><div className="event-title">{t.name}</div><div className="event-date">{FORMAT_LABEL[t.format]} · {fmtDateShort(t.event_date)}</div></div>
-                  <span className="tag green">{t.status === 'live' ? `● Live · R${t.current_round}` : 'Draft'}</span>
+                  <span className={'status ' + t.status}>{t.status === 'live' ? `Live · Round ${t.current_round}` : 'Draft'}</span>
                 </div>
                 <div className="event-meta">
                   <div className="meta-item">Players<b>{pl.length}</b></div>
@@ -151,11 +151,11 @@ export default function Tournaments() {
                 <div className="event-actions">
                   <button className="btn btn-outline btn-sm" onClick={() => setPlayersFor(t)}>{t.status === 'draft' ? 'Edit players' : 'View players'}</button>
                   {t.status === 'draft'
-                    ? <button className="btn btn-primary btn-sm" onClick={() => start(t)}>Start Tournament →</button>
-                    : <Link className="btn btn-primary btn-sm" to={`/tournaments/${t.id}`}>Open control room →</Link>}
-                  <button className="btn btn-outline btn-sm" onClick={() => setInviteFor(t)}>↗ Invite</button>
-                  <Link className="btn btn-outline btn-sm" to={`/tournaments/${t.id}/tv`}>▣ TV Display</Link>
-                  <button className="btn btn-outline btn-sm btn-danger" onClick={() => remove(t)} aria-label={`Delete ${t.name}`}>🗑</button>
+                    ? <button className="btn btn-primary btn-sm" onClick={() => start(t)}>Start tournament</button>
+                    : <Link className="btn btn-primary btn-sm" to={`/tournaments/${t.id}`}>Open control room</Link>}
+                  <button className="btn btn-outline btn-sm" onClick={() => setInviteFor(t)}><Icon name="link" /> Invite</button>
+                  <Link className="btn btn-outline btn-sm" to={`/tournaments/${t.id}/tv`}><Icon name="tv" /> TV display</Link>
+                  <button className="btn btn-outline btn-sm btn-danger" onClick={() => remove(t)} aria-label={`Delete ${t.name}`}><Icon name="trash" /></button>
                 </div>
               </article>
             )
@@ -163,18 +163,18 @@ export default function Tournaments() {
         </div>
       )}
 
-      <div className="section-head"><h2>Past Events</h2><span>All your completed tournaments</span></div>
+      <div className="section-head"><h2>Past events</h2><span>All your completed tournaments</span></div>
       {past.length === 0 && <p className="sub">Finished tournaments will show up here.</p>}
       {past.map((t) => (
         <div className="past-row" key={t.id}>
           <div className="past-left">
-            <div className="past-icon">♟</div>
+            <div className="past-icon"><Icon name="trophy" /></div>
             <div><strong>{t.name}</strong><small>{FORMAT_LABEL[t.format]} · {fmtDateMed(t.event_date)} · {byT.get(t.id)?.length ?? 0} players</small></div>
           </div>
           <div className="past-actions">
             <Link className="btn btn-outline btn-sm" to={`/tournaments/${t.id}/standings`}>Standings</Link>
-            <button className="btn btn-soft btn-sm" onClick={() => setCertFor(t)}>✧ Certificates</button>
-            <button className="btn btn-outline btn-sm btn-danger" onClick={() => remove(t)} aria-label={`Delete ${t.name}`}>🗑</button>
+            <button className="btn btn-soft btn-sm" onClick={() => setCertFor(t)}><Icon name="file" /> Certificates</button>
+            <button className="btn btn-outline btn-sm btn-danger" onClick={() => remove(t)} aria-label={`Delete ${t.name}`}><Icon name="trash" /></button>
           </div>
         </div>
       ))}

@@ -1,3 +1,4 @@
+import Icon from './components/Icon'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import Layout from './components/Layout'
 import { useAuth } from './hooks/useAuth'
@@ -24,7 +25,7 @@ function Setup() {
   return (
     <div className="auth-wrap">
       <div className="auth-card setup">
-        <div className="brand"><span className="brand-mark">♟</span>ChessHost<span style={{ color: 'var(--green)' }}>.</span></div>
+        <div className="brand"><span className="brand-mark"><Icon name="pawn" size={14} /></span>ChessHost</div>
         <h1>Connect Supabase</h1>
         <p className="sub">Add your project keys, then restart the dev server.</p>
         <ol style={{ lineHeight: 1.9, fontSize: 13 }}>

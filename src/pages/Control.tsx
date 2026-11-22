@@ -1,3 +1,4 @@
+import Icon from '../components/Icon'
 import { useMemo, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import ChessBoard from '../components/ChessBoard'
@@ -12,7 +13,6 @@ import { FORMAT_LABEL, SPEED_LABEL, boardClock, fmtDateWeekday, friendlyError, i
 import type { Result } from '../lib/types'
 
 type Tab = 'pairings' | 'results' | 'standings'
-const MEDALS = ['🥇', '🥈', '🥉']
 const two = (n: number) => String(n).padStart(2, '0')
 
 export default function Control() {
@@ -46,17 +46,17 @@ export default function Control() {
     return (
       <>
         <div className="play-head">
-          <div><div className="eyebrow">NOT STARTED</div><h1>{t.name}</h1><p className="sub">{subline}</p></div>
-          <div className="play-head-actions"><span className="tag">Draft</span></div>
+          <div><div className="eyebrow">Not started</div><h1>{t.name}</h1><p className="sub">{subline}</p></div>
+          <div className="play-head-actions"><span className="status draft">Draft</span></div>
         </div>
         {msg && <div className="notice">{msg}</div>}
         <div className="empty" style={{ maxWidth: 640, margin: '0 auto' }}>
-          <div className="empty-mark">♟</div>
+          <div className="empty-mark"><Icon name="pawn" size={17} /></div>
           <h3>{players.length} player{players.length === 1 ? '' : 's'} registered</h3>
           <p>Add players, share the QR code so people can join themselves, then start when everyone is ready.</p>
           <div style={{ display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap' }}>
             <button className="btn btn-outline" onClick={() => setPlayersOpen(true)}>Edit players</button>
-            <button className="btn btn-outline" onClick={() => setInviteOpen(true)}>↗ Invite</button>
+            <button className="btn btn-outline" onClick={() => setInviteOpen(true)}><Icon name="link" /> Invite</button>
             <button
               className="btn btn-primary"
               disabled={busy}
@@ -65,7 +65,7 @@ export default function Control() {
                 try { await startTournament(t, players); await reload() } catch (e) { setMsg(friendlyError(e)) }
                 setBusy(false)
               }}
-            >Start Tournament →</button>
+            >Start tournament</button>
           </div>
         </div>
         <PlayersModal tournament={playersOpen ? t : null} onClose={() => setPlayersOpen(false)} onChanged={reload} />
@@ -118,14 +118,14 @@ export default function Control() {
     <div className="control">
       <div className="play-head">
         <div>
-          <div className="eyebrow">{finished ? 'FINISHED' : `LIVE TOURNAMENT · ROUND ${t.current_round} OF ${t.total_rounds}`}</div>
+          <div className="eyebrow">{finished ? 'Finished' : `Round ${t.current_round} of ${t.total_rounds}`}</div>
           <h1>{t.name}</h1>
           <p className="sub">{subline}</p>
         </div>
         <div className="play-head-actions">
-          <span className="tag green">{finished ? '✓ FINISHED' : '● LIVE'}</span>
-          <button className="btn btn-outline btn-sm" onClick={copyLive}>{copied ? 'Copied ✓' : '⧉ Spectator link'}</button>
-          <Link className="btn btn-outline btn-sm" to={`/tournaments/${t.id}/tv`}>▣ TV Display</Link>
+          <span className={'status ' + (finished ? 'finished' : 'live')}>{finished ? 'Finished' : 'Live'}</span>
+          <button className="btn btn-outline btn-sm" onClick={copyLive}>{copied ? <><Icon name="check" size={14} /> Copied</> : <><Icon name="eye" size={14} /> Spectator link</>}</button>
+          <Link className="btn btn-outline btn-sm" to={`/tournaments/${t.id}/tv`}><Icon name="tv" size={14} /> TV display</Link>
         </div>
       </div>
 
@@ -143,10 +143,10 @@ export default function Control() {
             <strong className="clock active-clock">{boardClock(t)}</strong>
           </div>
           <div className="board-toolbar">
-            <button className="tool-btn" title="Previous board" onClick={() => go(-1)}>‹</button>
+            <button className="tool-btn" title="Previous board" onClick={() => go(-1)}><Icon name="chevron-left" /></button>
             <span>BOARD {two(g?.board ?? 1)} OF {two(round.length)}</span>
-            <button className="tool-btn" title="Next board" onClick={() => go(1)}>›</button>
-            <Link className="tool-btn" to={`/tournaments/${t.id}/standings`} title="Standings">♜</Link>
+            <button className="tool-btn" title="Next board" onClick={() => go(1)}><Icon name="chevron-right" /></button>
+            <Link className="tool-btn" to={`/tournaments/${t.id}/standings`} title="Standings"><Icon name="chart" /></Link>
           </div>
         </div>
 
@@ -166,8 +166,8 @@ export default function Control() {
                     <span className="pair-no">{two(x.board)}</span>
                     <span className="pair-names"><b>{pname.get(x.white_id)}</b><small>{x.black_id ? `vs ${pname.get(x.black_id)}` : 'Bye · automatic point'}</small></span>
                     {x.result
-                      ? <span className="pair-status done">{x.black_id ? `✓ ${resultText(x.result)}` : '✓ Bye'}</span>
-                      : <span className="pair-status live-dot">● Playing</span>}
+                      ? <span className="pair-status done">{x.black_id ? resultText(x.result) : 'Bye'}</span>
+                      : <span className="pair-status live-dot">Playing</span>}
                   </button>
                 ))}
               </div>
@@ -198,9 +198,9 @@ export default function Control() {
             <div className="director-tab">
               <div className="panel-title"><b>Top standings</b><span className="tag green">Round {t.current_round}</span></div>
               {rows.slice(0, 5).map((r) => (
-                <div className="mini-standing" key={r.player.id}><b>{MEDALS[r.rank - 1] ?? `${r.rank} ·`} {r.player.name}</b><strong>{fmtPoints(r.points)}</strong></div>
+                <div className="mini-standing" key={r.player.id}><b>{r.rank}. {r.player.name}</b><strong>{fmtPoints(r.points)}</strong></div>
               ))}
-              <Link className="btn btn-outline btn-sm full-btn" style={{ marginTop: 12 }} to={`/tournaments/${t.id}/standings`}>Full standings →</Link>
+              <Link className="btn btn-outline btn-sm full-btn" style={{ marginTop: 12 }} to={`/tournaments/${t.id}/standings`}>Full standings</Link>
             </div>
           )}
 
@@ -209,11 +209,11 @@ export default function Control() {
               <div><b>Round progress</b><strong>{done} of {round.length} results</strong></div>
               <div className="progress-track"><span style={{ width: `${round.length ? (done / round.length) * 100 : 0}%` }} /></div>
             </div>
-            <Link className="btn btn-primary full-btn" to={`/tournaments/${t.id}/tv`}>▣ Open tournament display</Link>
+            <Link className="btn btn-primary full-btn" to={`/tournaments/${t.id}/tv`}>Open tournament display</Link>
             <div className="panel-actions">
               {finished
                 ? <Link className="btn btn-outline btn-sm" to={`/tournaments/${t.id}/standings`}>Final standings</Link>
-                : <button className="btn btn-outline btn-sm" disabled={!allDone || busy} title={allDone ? '' : 'Enter all results first'} onClick={next}>{lastRound ? 'Finish tournament' : 'Next round →'}</button>}
+                : <button className="btn btn-outline btn-sm" disabled={!allDone || busy} title={allDone ? '' : 'Enter all results first'} onClick={next}>{lastRound ? 'Finish tournament' : 'Next round'}</button>}
               <Link className="btn btn-outline btn-sm" to="/tournaments">Exit</Link>
             </div>
             {!allDone && !finished && <p className="panel-hint" style={{ marginTop: 10 }}>{lastRound ? 'Finish' : 'Next round'} unlocks after all results are entered.</p>}

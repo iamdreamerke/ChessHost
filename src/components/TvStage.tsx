@@ -1,3 +1,4 @@
+import Icon from './Icon'
 import { forwardRef, useMemo } from 'react'
 import { QRCodeSVG } from 'qrcode.react'
 import type { Game, Player, Tournament } from '../lib/types'
@@ -7,7 +8,6 @@ import { resultText } from '../lib/utils'
 
 interface Props { tournament: Tournament; players: Player[]; games: Game[] }
 
-const MEDALS = ['🥇', '🥈', '🥉']
 const MAX_BOARDS = 8
 
 const TvStage = forwardRef<HTMLDivElement, Props>(({ tournament: t, players, games }, ref) => {
@@ -31,7 +31,7 @@ const TvStage = forwardRef<HTMLDivElement, Props>(({ tournament: t, players, gam
           <h1>{t.name.toUpperCase()}</h1>
           <div className="tv-subline">{subline}</div>
         </div>
-        <div className="tv-piece">♟</div>
+        <div className="tv-piece"><Icon name="pawn" size="1em" /></div>
       </div>
 
       <div className="tv-grid">
@@ -50,7 +50,7 @@ const TvStage = forwardRef<HTMLDivElement, Props>(({ tournament: t, players, gam
               <h3>FINAL STANDINGS</h3>
               {rows.slice(0, MAX_BOARDS).map((r) => (
                 <div className="tv-rank" key={r.player.id}>
-                  <span>{MEDALS[r.rank - 1] ?? r.rank + ' ·'} {r.player.name}</span>
+                  <span>{r.rank}. {r.player.name}</span>
                   <b>{fmtPoints(r.points)}</b>
                 </div>
               ))}
@@ -75,7 +75,7 @@ const TvStage = forwardRef<HTMLDivElement, Props>(({ tournament: t, players, gam
           <h3>{t.status === 'finished' ? 'PODIUM' : 'TOP PLAYERS'}</h3>
           {rows.slice(0, 5).map((r) => (
             <div className="tv-rank" key={r.player.id}>
-              <span>{MEDALS[r.rank - 1] ?? r.rank + ' ·'} {r.player.name}</span>
+              <span>{r.rank}. {r.player.name}</span>
               <b>{fmtPoints(r.points)}</b>
             </div>
           ))}

@@ -1,3 +1,4 @@
+import Icon from '../components/Icon'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../hooks/useAuth'
@@ -45,30 +46,30 @@ export default function Players() {
   return (
     <>
       <div className="page-head">
-        <div><div className="eyebrow">YOUR CHESS COMMUNITY</div><h1>My Players</h1><p className="sub">Your saved members, ready for the next game.</p></div>
+        <div><h1>Players</h1><p className="sub">Saved members you can add to any tournament in seconds.</p></div>
         <div style={{ display: 'flex', gap: 8 }}>
-          <button className="btn btn-outline" onClick={() => setImportOpen(true)}>⇧ Import a list</button>
-          <button className="btn btn-primary" onClick={() => setAddOpen(true)}>＋ Add member</button>
+          <button className="btn btn-outline" onClick={() => setImportOpen(true)}><Icon name="upload" /> Import</button>
+          <button className="btn btn-primary" onClick={() => setAddOpen(true)}><Icon name="plus" /> Add member</button>
         </div>
       </div>
 
       <div className="stats" style={{ gridTemplateColumns: 'repeat(3,1fr)' }}>
-        <div className="stat"><div className="stat-top">Saved members <span className="stat-icon">♙</span></div><div className="stat-num">{members.length}</div><div className="stat-note">Your community roster</div></div>
-        <div className="stat"><div className="stat-top">Member capacity <span className="stat-icon">◎</span></div><div className="stat-num">{members.length} <small>/ {CAPACITY.toLocaleString()}</small></div><div className="stat-note">Free on every plan</div></div>
-        <div className="stat"><div className="stat-top">Events played <span className="stat-icon">♜</span></div><div className="stat-num">{events}</div><div className="stat-note">Tournament history</div></div>
+        <div className="stat"><div className="stat-top">Saved members</div><div className="stat-num">{members.length}</div><div className="stat-note">Your community roster</div></div>
+        <div className="stat"><div className="stat-top">Member capacity</div><div className="stat-num">{members.length} <small>/ {CAPACITY.toLocaleString()}</small></div><div className="stat-note">Free on every plan</div></div>
+        <div className="stat"><div className="stat-top">Events played</div><div className="stat-num">{events}</div><div className="stat-note">Tournament history</div></div>
       </div>
 
       <div className="toolbar">
-        <input className="search" placeholder="⌕  Search players..." value={q} onChange={(e) => setQ(e.target.value)} />
+        <input className="search" placeholder="Search players" value={q} onChange={(e) => setQ(e.target.value)} />
         <span>{shown.length} member{shown.length === 1 ? '' : 's'}</span>
       </div>
 
       {members.length === 0 ? (
         <div className="empty">
-          <div className="empty-mark">♙</div>
+          <div className="empty-mark"><Icon name="users" size={17} /></div>
           <h3>Your player list starts here</h3>
           <p>Save regular players so you can add them to future tournaments in seconds. No player accounts needed.</p>
-          <button className="btn btn-primary" onClick={() => setAddOpen(true)}>＋ Add your first member</button>
+          <button className="btn btn-primary" onClick={() => setAddOpen(true)}><Icon name="plus" /> Add your first member</button>
         </div>
       ) : (
         <div className="table-wrap">

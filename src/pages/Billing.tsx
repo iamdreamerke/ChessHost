@@ -1,3 +1,4 @@
+import Icon from '../components/Icon'
 import { useState } from 'react'
 import Modal from '../components/Modal'
 import { useAuth } from '../hooks/useAuth'
@@ -20,22 +21,22 @@ export default function Billing() {
         <div className="event-card">
           <div className="eyebrow">GET STARTED</div>
           <h2 style={{ fontSize: 25, margin: '8px 0' }}>Free</h2>
-          <div style={{ fontSize: 28, fontWeight: 900 }}>$0 <small style={{ fontSize: 11, color: 'var(--muted)' }}>/ month</small></div>
+          <div style={{ fontSize: 28, fontWeight: 500 }}>$0 <small style={{ fontSize: 11, color: 'var(--muted)' }}>/ month</small></div>
           <p className="sub">Everything you need to run your first event.</p>
           <hr style={{ border: 0, borderTop: '1px solid var(--line)', margin: '18px 0' }} />
-          <p>✓ 1 event per month</p><p>✓ Up to 12 players</p><p>✓ Saved players, TV display & certificates</p><p>✓ Swiss, Round Robin & Knockout</p>
+          <p className="feat"><Icon name="check" size={14} /> 1 event per month</p><p className="feat"><Icon name="check" size={14} /> Up to 12 players</p><p className="feat"><Icon name="check" size={14} /> Saved players, TV display & certificates</p><p className="feat"><Icon name="check" size={14} /> Swiss, Round Robin & Knockout</p>
           <button className="btn btn-outline full-btn" disabled>{pro ? 'Free plan' : 'Current plan'}</button>
         </div>
         <div className="event-card" style={{ border: '1.5px solid var(--green)' }}>
-          <span className="tag green">MOST POPULAR</span>
+          <span className="tag green">Most popular</span>
           <h2 style={{ fontSize: 25, margin: '8px 0' }}>Pro</h2>
-          <div style={{ fontSize: 28, fontWeight: 900 }}>$7 <small style={{ fontSize: 11, color: 'var(--muted)' }}>/ month</small></div>
+          <div style={{ fontSize: 28, fontWeight: 500 }}>$7 <small style={{ fontSize: 11, color: 'var(--muted)' }}>/ month</small></div>
           <p className="sub">For clubs and organisers who play often.</p>
           <hr style={{ border: 0, borderTop: '1px solid var(--line)', margin: '18px 0' }} />
-          <p>✓ Unlimited tournaments</p><p>✓ Unlimited players</p><p>✓ Everything in Free</p><p>✓ ChessHost AI rules assistant</p>
+          <p className="feat"><Icon name="check" size={14} /> Unlimited tournaments</p><p className="feat"><Icon name="check" size={14} /> Unlimited players</p><p className="feat"><Icon name="check" size={14} /> Everything in Free</p>
           {pro
             ? <button className="btn btn-outline full-btn" disabled>Current plan</button>
-            : <button className="btn btn-primary full-btn" onClick={() => setOpen(true)}>Upgrade to Pro →</button>}
+            : <button className="btn btn-primary full-btn" onClick={() => setOpen(true)}>Upgrade to Pro</button>}
         </div>
       </div>
 

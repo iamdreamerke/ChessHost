@@ -1,3 +1,4 @@
+import Icon from '../components/Icon'
 import { useState, type FormEvent } from 'react'
 import { useParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
@@ -27,7 +28,7 @@ export default function Join() {
   return (
     <div className="auth-wrap">
       <div className="auth-card">
-        <div className="brand"><span className="brand-mark">♟</span>ChessHost<span style={{ color: 'var(--green)' }}>.</span></div>
+        <div className="brand"><span className="brand-mark"><Icon name="pawn" size={14} /></span>ChessHost</div>
         {loading ? <div className="spinner">Loading…</div> : notFound || !t ? (
           <><h1>Tournament not found</h1><p className="sub">Check the link or QR code and try again.</p></>
         ) : (
@@ -37,14 +38,14 @@ export default function Join() {
             <p className="sub">{FORMAT_LABEL[t.format]} · {SPEED_LABEL[t.speed]} · {clockLabel(t)}<br />{fmtDateShort(t.event_date)}</p>
 
             {joined ? (
-              <><div className="notice ok" style={{ textAlign: 'center' }}>✓ You're in, {joined}! See you at the board.</div><a className="btn btn-primary full-btn" href={liveUrl(t.slug)}>Follow live fixtures & standings →</a></>
+              <><div className="notice ok" style={{ textAlign: 'center' }}>You're in, {joined}! See you at the board.</div><a className="btn btn-primary full-btn" href={liveUrl(t.slug)}>Follow live fixtures & standings</a></>
             ) : closed ? (
               <div className="notice" style={{ textAlign: 'center' }}>Registration is closed for this tournament.</div>
             ) : (
               <form onSubmit={submit}>
                 {err && <div className="notice">{err}</div>}
                 <div className="form-row"><label>Your name</label><input className="field" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Brian Kimani" maxLength={40} required autoFocus /></div>
-                <button className="btn btn-primary full-btn" disabled={busy}>{busy ? 'Joining…' : 'Join tournament →'}</button>
+                <button className="btn btn-primary full-btn" disabled={busy}>{busy ? 'Joining…' : 'Join tournament'}</button>
               </form>
             )}
 
@@ -52,7 +53,7 @@ export default function Join() {
             <div className="chip-row" style={{ justifyContent: 'center', marginTop: 8 }}>
               {players.slice(0, 24).map((p) => <span className="tag" key={p.id}>{p.name}</span>)}
             </div>
-            <p className="auth-switch"><a href={liveUrl(t.slug)}>Open live fixtures & standings →</a></p>
+            <p className="auth-switch"><a href={liveUrl(t.slug)}>Open live fixtures & standings</a></p>
           </>
         )}
       </div>

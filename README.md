@@ -70,4 +70,3 @@ Set the two `VITE_` env vars in the host, then add your deployed URL under Supab
 - **Payments:** "Upgrade to Pro" shows a placeholder modal. Hook it to M-Pesa/Stripe and have your webhook set `profiles.plan = 'pro'`.
 - **AI rules assistant** (listed on the Pro card) is marketing copy only.
 - The control-room board is a decorative preview. Players play on their own boards (chess.com, OTB, etc.); you record the results.
-"# ChessHost" 

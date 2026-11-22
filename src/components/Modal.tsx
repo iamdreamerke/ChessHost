@@ -1,3 +1,4 @@
+import Icon from './Icon'
 import { useEffect, type ReactNode } from 'react'
 
 interface Props {
@@ -26,7 +27,7 @@ export default function Modal({ open, onClose, title, eyebrow, width, children }
               {eyebrow && <div className="eyebrow">{eyebrow}</div>}
               {title && <h2>{title}</h2>}
             </div>
-            <button className="close" onClick={onClose} aria-label="Close">×</button>
+            <button className="close" onClick={onClose} aria-label="Close"><Icon name="x" size={15} /></button>
           </div>
           {children}
         </div>
