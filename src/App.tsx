@@ -5,6 +5,7 @@ import { isConfigured } from './lib/supabase'
 import Billing from './pages/Billing'
 import Control from './pages/Control'
 import Join from './pages/Join'
+import Live from './pages/Live'
 import Login from './pages/Login'
 import Players from './pages/Players'
 import PublicTv from './pages/PublicTv'
@@ -44,6 +45,7 @@ export default function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/join/:slug" element={<Join />} />
       <Route path="/tv/:slug" element={<PublicTv />} />
+      <Route path="/live/:slug" element={<Live />} />
       <Route element={<RequireAuth><Layout /></RequireAuth>}>
         <Route path="/" element={<Navigate to="/tournaments" replace />} />
         <Route path="/tournaments" element={<Tournaments />} />

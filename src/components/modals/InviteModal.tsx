@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { QRCodeSVG } from 'qrcode.react'
 import Modal from '../Modal'
 import { supabase } from '../../lib/supabase'
-import { joinUrl } from '../../lib/utils'
+import { joinUrl, liveUrl } from '../../lib/utils'
 import type { Tournament } from '../../lib/types'
 
 export default function InviteModal({ tournament, onClose, onChanged }: {
@@ -12,6 +12,7 @@ export default function InviteModal({ tournament, onClose, onChanged }: {
 }) {
   const [open, setOpen] = useState(true)
   const [copied, setCopied] = useState(false)
+  const [copiedLive, setCopiedLive] = useState(false)
   useEffect(() => { setOpen(tournament?.registration_open ?? true); setCopied(false) }, [tournament?.id, tournament?.registration_open])
 
   if (!tournament) return <Modal open={false} onClose={onClose}>{null}</Modal>
@@ -28,6 +29,12 @@ export default function InviteModal({ tournament, onClose, onChanged }: {
     setTimeout(() => setCopied(false), 1800)
   }
 
+  async function copyLive() {
+    try { await navigator.clipboard.writeText(liveUrl(tournament!.slug)) } catch { /* clipboard unavailable */ }
+    setCopiedLive(true)
+    setTimeout(() => setCopiedLive(false), 1800)
+  }
+
   const locked = tournament.status !== 'draft'
   return (
     <Modal open onClose={onClose} title="Invite Players" width={420}>
@@ -38,6 +45,11 @@ export default function InviteModal({ tournament, onClose, onChanged }: {
         <div className="invite-link">
           <span>{url.replace(/^https?:\/\//, '')}</span>
           <button className="btn btn-soft btn-sm" onClick={copy}>{copied ? 'Copied ✓' : 'Copy'}</button>
+        </div>
+        <p style={{ color: 'var(--muted)', fontSize: 11, margin: '14px 0 6px' }}>Spectator link: live fixtures & standings (read-only)</p>
+        <div className="invite-link">
+          <span>{liveUrl(tournament.slug).replace(/^https?:\/\//, '')}</span>
+          <button className="btn btn-soft btn-sm" onClick={copyLive}>{copiedLive ? 'Copied ✓' : 'Copy'}</button>
         </div>
         <p style={{ color: 'var(--muted)', fontSize: 11, margin: '16px 0 5px' }}>
           {locked ? 'Registration closes when a tournament starts' : open ? 'Registration is currently open' : 'Registration is currently closed'}

@@ -311,3 +311,22 @@ select option{background:var(--panel);color:#eee}
   .two-col,.choice-grid{grid-template-columns:1fr}
   .past-row{flex-direction:column;align-items:flex-start}
 }
+
+/* ---------- spectator (read-only live view) ---------- */
+.live-wrap{max-width:760px;margin:0 auto;padding:20px 16px 70px}
+.live-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:16px}
+.live-head h1{font-size:24px;margin:4px 0}
+.live-tabs{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line);margin-bottom:14px}
+.live-tabs button{padding:12px;font-weight:900;font-size:12px;color:var(--muted);border-bottom:2px solid transparent}
+.live-tabs button.active{color:#fff;border-color:var(--green)}
+.round-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.live-board{display:grid;grid-template-columns:34px 1fr auto;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px;margin-bottom:7px}
+.live-board.mine{border-color:var(--green);background:var(--pale)}
+.live-board .no{font:700 11px 'JetBrains Mono',monospace;color:var(--muted)}
+.live-board .names b{display:block}
+.live-board .names small{color:var(--muted);font-size:11px}
+.live-board .res{font:800 13px 'JetBrains Mono',monospace;color:var(--lime)}
+.live-board .res.wait{color:var(--muted);font-weight:700;font-size:11px}
+.me-card{background:var(--pale);border:1px solid var(--pale-line);border-radius:10px;padding:14px;margin-bottom:14px}
+.me-card p{margin:4px 0 0;font-size:12px;color:#d8e8c8}
+.table tr.me td{background:var(--pale)}

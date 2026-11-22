@@ -8,7 +8,7 @@ import { useTournament } from '../hooks/useTournament'
 import { supabase } from '../lib/supabase'
 import { advanceRound, startTournament } from '../lib/actions'
 import { computeStandings, fmtPoints } from '../lib/standings'
-import { FORMAT_LABEL, SPEED_LABEL, boardClock, fmtDateWeekday, friendlyError, initials, resultText } from '../lib/utils'
+import { FORMAT_LABEL, SPEED_LABEL, boardClock, fmtDateWeekday, friendlyError, initials, liveUrl, resultText } from '../lib/utils'
 import type { Result } from '../lib/types'
 
 type Tab = 'pairings' | 'results' | 'standings'
@@ -26,6 +26,7 @@ export default function Control() {
   const [busy, setBusy] = useState(false)
   const [playersOpen, setPlayersOpen] = useState(false)
   const [inviteOpen, setInviteOpen] = useState(false)
+  const [copied, setCopied] = useState(false)
 
   const pname = useMemo(() => new Map(players.map((p) => [p.id, p.name])), [players])
   const round = useMemo(
@@ -105,6 +106,11 @@ export default function Control() {
     setBusy(false)
   }
 
+  async function copyLive() {
+    try { await navigator.clipboard.writeText(liveUrl(t!.slug)) } catch { /* ignore */ }
+    setCopied(true); setTimeout(() => setCopied(false), 1800)
+  }
+
   const pick = (i: number) => { setSel(i); setMsg('') }
   const go = (d: number) => round.length && pick((idx + d + round.length) % round.length)
 
@@ -118,6 +124,7 @@ export default function Control() {
         </div>
         <div className="play-head-actions">
           <span className="tag green">{finished ? '✓ FINISHED' : '● LIVE'}</span>
+          <button className="btn btn-outline btn-sm" onClick={copyLive}>{copied ? 'Copied ✓' : '⧉ Spectator link'}</button>
           <Link className="btn btn-outline btn-sm" to={`/tournaments/${t.id}/tv`}>▣ TV Display</Link>
         </div>
       </div>

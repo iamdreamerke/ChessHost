@@ -43,5 +43,7 @@ export function friendlyError(e: unknown): string {
   return m
 }
 
-export const joinUrl = (slug: string) => `${window.location.origin}/join/${slug}`
-export const tvUrl = (slug: string) => `${window.location.origin}/tv/${slug}`
+export const appUrl = () => window.location.origin + import.meta.env.BASE_URL
+export const joinUrl = (slug: string) => `${appUrl()}join/${slug}`
+export const tvUrl = (slug: string) => `${appUrl()}tv/${slug}`
+export const liveUrl = (slug: string) => `${appUrl()}live/${slug}`

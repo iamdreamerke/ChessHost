@@ -2,7 +2,7 @@ import { useState, type FormEvent } from 'react'
 import { useParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { useTournament } from '../hooks/useTournament'
-import { FORMAT_LABEL, SPEED_LABEL, clockLabel, fmtDateShort, friendlyError } from '../lib/utils'
+import { FORMAT_LABEL, SPEED_LABEL, clockLabel, fmtDateShort, friendlyError, liveUrl } from '../lib/utils'
 
 export default function Join() {
   const { slug } = useParams()
@@ -15,9 +15,10 @@ export default function Join() {
   async function submit(e: FormEvent) {
     e.preventDefault()
     setBusy(true); setErr('')
-    const { error } = await supabase.rpc('join_tournament', { p_slug: slug, p_name: name })
+    const { data: pid, error } = await supabase.rpc('join_tournament', { p_slug: slug, p_name: name })
     setBusy(false)
     if (error) return setErr(friendlyError(error))
+    try { if (pid) localStorage.setItem(`chesshost:me:${slug}`, String(pid)) } catch { /* ignore */ }
     setJoined(name.trim()); setName(''); reload()
   }
 
@@ -36,7 +37,7 @@ export default function Join() {
             <p className="sub">{FORMAT_LABEL[t.format]} · {SPEED_LABEL[t.speed]} · {clockLabel(t)}<br />{fmtDateShort(t.event_date)}</p>
 
             {joined ? (
-              <div className="notice ok" style={{ textAlign: 'center' }}>✓ You're in, {joined}! See you at the board.</div>
+              <><div className="notice ok" style={{ textAlign: 'center' }}>✓ You're in, {joined}! See you at the board.</div><a className="btn btn-primary full-btn" href={liveUrl(t.slug)}>Follow live fixtures & standings →</a></>
             ) : closed ? (
               <div className="notice" style={{ textAlign: 'center' }}>Registration is closed for this tournament.</div>
             ) : (
@@ -51,7 +52,7 @@ export default function Join() {
             <div className="chip-row" style={{ justifyContent: 'center', marginTop: 8 }}>
               {players.slice(0, 24).map((p) => <span className="tag" key={p.id}>{p.name}</span>)}
             </div>
-            <p className="auth-switch"><a href={`/tv/${t.slug}`}>Open live display →</a></p>
+            <p className="auth-switch"><a href={liveUrl(t.slug)}>Open live fixtures & standings →</a></p>
           </>
         )}
       </div>
